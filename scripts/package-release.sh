@@ -15,6 +15,21 @@ DMG_PATH="$OUTPUT_DIR/HouseLearning-macOS-universal-v${VERSION}.dmg"
 ICON_SOURCE="$ROOT_DIR/icon.png"
 ICONSET_DIR="$ROOT_DIR/.build/AppIcon.iconset"
 
+if [[ -z "${APPLE_SIGNING_IDENTITY:-}" ]]; then
+  echo "APPLE_SIGNING_IDENTITY is required for a notarized macOS release."
+  exit 1
+fi
+
+if [[ -z "${APPLE_TEAM_ID:-}" ]]; then
+  echo "APPLE_TEAM_ID is required for notarization."
+  exit 1
+fi
+
+if [[ -z "${APPLE_API_KEY_PATH:-}" ]]; then
+  echo "APPLE_API_KEY_PATH is required for notarization."
+  exit 1
+fi
+
 mkdir -p "$OUTPUT_DIR"
 rm -rf "$APP_BUNDLE_PATH" "$APP_ZIP_PATH" "$ZIP_PATH" "$DMG_PATH" "$ICONSET_DIR"
 
@@ -26,7 +41,6 @@ xcodebuild \
   ARCHS="x86_64 arm64" \
   ONLY_ACTIVE_ARCH=NO \
   MACOSX_DEPLOYMENT_TARGET=12.0 \
-  CODE_SIGNING_ALLOWED=NO \
   build
 
 APP_BUILD_PATH="$ROOT_DIR/.build/Build/Products/$CONFIGURATION"
@@ -65,12 +79,29 @@ if [ -f "$APP_BUNDLE_PATH/Contents/Info.plist" ]; then
   /usr/libexec/PlistBuddy -c "Add :CFBundleIconName string AppIcon" "$APP_BUNDLE_PATH/Contents/Info.plist"
 fi
 
+codesign --deep --force --options runtime --timestamp --sign "$APPLE_SIGNING_IDENTITY" "$APP_BUNDLE_PATH"
+
+xcrun notarytool submit "$APP_BUNDLE_PATH" \
+  --key "$APPLE_API_KEY_PATH" \
+  --key-id "${APPLE_KEY_ID}" \
+  --issuer "${APPLE_ISSUER_ID}" \
+  --wait \
+  --output-format json
+xcrun stapler staple "$APP_BUNDLE_PATH"
+
 cd "$OUTPUT_DIR"
 zip -r "HouseLearning-macOS-universal-v${VERSION}.app.zip" "$APP_NAME" >/dev/null
 zip -r "HouseLearning-macOS-universal-v${VERSION}.zip" "$APP_NAME" >/dev/null
 hdiutil create -srcfolder "$APP_BUNDLE_PATH" -volname "HouseLearning" -ov -format UDZO "$DMG_PATH" >/dev/null
+xcrun notarytool submit "$DMG_PATH" \
+  --key "$APPLE_API_KEY_PATH" \
+  --key-id "${APPLE_KEY_ID}" \
+  --issuer "${APPLE_ISSUER_ID}" \
+  --wait \
+  --output-format json
+xcrun stapler staple "$DMG_PATH"
 
-printf 'Created app bundle: %s\n' "$APP_BUNDLE_PATH"
-printf 'Created app zip: %s\n' "$APP_ZIP_PATH"
-printf 'Created DMG: %s\n' "$DMG_PATH"
+printf 'Created signed app bundle: %s\n' "$APP_BUNDLE_PATH"
+printf 'Created signed app zip: %s\n' "$APP_ZIP_PATH"
+printf 'Created signed DMG: %s\n' "$DMG_PATH"
 printf 'Release asset naming: HouseLearning-macOS-universal-v%s.{app.zip,dmg}\n' "$VERSION"
