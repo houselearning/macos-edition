@@ -35,15 +35,16 @@ jobs:
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
-      - name: Build macOS release archive
+      - name: Build macOS release artifacts
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: bash scripts/package-release.sh
 
-      - name: Upload release asset
+      - name: Upload release assets
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           files: |
-            build-release/HouseLearning-macOS-universal-v${{ steps.version.outputs.version }}.zip
+            build-release/HouseLearning-macOS-universal-v${{ steps.version.outputs.version }}.app.zip
+            build-release/HouseLearning-macOS-universal-v${{ steps.version.outputs.version }}.dmg
           generate_release_notes: true

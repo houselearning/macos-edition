@@ -1,0 +1,92 @@
+{
+  "source": "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/HouseLearning/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Home"
+      },
+      {
+        "comment": "",
+        "key": "Learning"
+      },
+      {
+        "comment": "",
+        "key": "SafeAI"
+      },
+      {
+        "comment": "",
+        "key": "Teacher"
+      },
+      {
+        "comment": "",
+        "key": "Settings"
+      },
+      {
+        "comment": "",
+        "key": "Featured activities"
+      },
+      {
+        "comment": "",
+        "key": "Learning library"
+      },
+      {
+        "comment": "",
+        "key": "SafeAI is the educational assistant for HouseLearning.org and the HouseLearning desktop experience."
+      },
+      {
+        "comment": "",
+        "key": "It supports math, science, reading, writing, coding, study help, and safe age-appropriate learning questions."
+      },
+      {
+        "comment": "",
+        "key": "Available in the desktop app and on the website, SafeAI helps learners stay focused and supported without leaving the HouseLearning experience."
+      },
+      {
+        "comment": "",
+        "key": "Download"
+      },
+      {
+        "comment": "",
+        "key": "Update available"
+      },
+      {
+        "comment": "",
+        "key": "HouseLearning v%@ is ready to download."
+      },
+      {
+        "comment": "",
+        "key": "A desktop learning app for Mac with math, science, coding, and SafeAI support."
+      },
+      {
+        "comment": "",
+        "key": "HouseLearning"
+      },
+      {
+        "comment": "",
+        "key": "Official Mac app • Public beta"
+      },
+      {
+        "comment": "",
+        "key": "Focus mode"
+      },
+      {
+        "comment": "",
+        "key": "SafeAI guidance enabled"
+      },
+      {
+        "comment": "",
+        "key": "Teacher mode"
+      },
+      {
+        "comment": "",
+        "key": "Check for app updates automatically"
+      },
+      {
+        "comment": "",
+        "key": "Dark mode"
+      }
+    ]
+  },
+  "version": 1
+}

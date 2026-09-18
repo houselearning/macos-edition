@@ -1,0 +1,65 @@
+{
+  "_buildCommand2" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "buildCommand" : "build",
+  "configuredTargets" : [
+    {
+      "guid" : "0f29fff2044e47de736ed9e87e37899904b242b4ec2a6db3025955732e316416"
+    }
+  ],
+  "containerPath" : "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/HouseLearning.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "x86_64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "macosx",
+      "sdk" : "macosx13.1",
+      "sdkVariant" : "macos",
+      "supportedArchitectures" : [
+        "x86_64h",
+        "x86_64"
+      ],
+      "targetArchitecture" : "x86_64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/.build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/.build/Build/Products",
+      "derivedDataPath" : "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/.build",
+      "indexDataStoreFolderPath" : "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/.build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/.build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/.build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Release",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+          "ARCHS" : "x86_64 arm64",
+          "CODE_SIGNING_ALLOWED" : "NO",
+          "MACOSX_DEPLOYMENT_TARGET" : "12.0",
+          "ONLY_ACTIVE_ARCH" : "NO"
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "ENABLE_PREVIEWS" : "NO"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "schemeCommand2" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

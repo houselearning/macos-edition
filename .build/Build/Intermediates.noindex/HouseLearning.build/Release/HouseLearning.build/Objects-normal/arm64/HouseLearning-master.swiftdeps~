@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)"
+options: "bb5b26ad73fae56acf73bc7e1e82b7594e422fbd4367a53b84728b9299ff538b"
+build_start_time: [1789763185, 5692958]
+build_end_time: [1789763185, 45928955]
+inputs:
+  "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/HouseLearning/ContentView.swift": !dirty [1789762524, 0]
+  "/Volumes/Other Storage/HouseLearning for macOS/HouseLearning/HouseLearning/HouseLearningApp.swift": !dirty [1789338631, 0]

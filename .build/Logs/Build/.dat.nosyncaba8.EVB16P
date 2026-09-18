@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>10</integer>
+	<key>logs</key>
+	<dict>
+		<key>8B800A33-ABCE-482A-8FED-6E56D2A63545</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>8B800A33-ABCE-482A-8FED-6E56D2A63545.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>HouseLearning project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>HouseLearning</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project HouseLearning with scheme HouseLearning and configuration Release</string>
+			<key>timeStartedRecording</key>
+			<real>811455980.74075198</real>
+			<key>timeStoppedRecording</key>
+			<real>811456000.26100099</real>
+			<key>title</key>
+			<string>Building project HouseLearning with scheme HouseLearning and configuration Release</string>
+			<key>uniqueIdentifier</key>
+			<string>8B800A33-ABCE-482A-8FED-6E56D2A63545</string>
+		</dict>
+		<key>90BF7675-6219-4EC4-9E4D-5F61E9E4644F</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>90BF7675-6219-4EC4-9E4D-5F61E9E4644F.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>HouseLearning project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>HouseLearning</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project HouseLearning with scheme HouseLearning and configuration Release</string>
+			<key>timeStartedRecording</key>
+			<real>811456065.24511194</real>
+			<key>timeStoppedRecording</key>
+			<real>811456076.67045701</real>
+			<key>title</key>
+			<string>Building project HouseLearning with scheme HouseLearning and configuration Release</string>
+			<key>uniqueIdentifier</key>
+			<string>90BF7675-6219-4EC4-9E4D-5F61E9E4644F</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
