@@ -79,10 +79,19 @@ struct ContentView: View {
                 .tabItem {
                     Label("Teacher", systemImage: "person.badge.shield.checkmark")
                 }
+
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape.fill")
+                }
         }
         .frame(minWidth: 1100, minHeight: 760)
         .background(Color(nsColor: NSColor.controlBackgroundColor))
-        .onAppear { updateManager.checkForUpdate() }
+        .onAppear {
+            if UserDefaults.standard.bool(forKey: "houselearning.autoUpdateCheck") {
+                updateManager.checkForUpdate()
+            }
+        }
     }
 }
 
@@ -461,6 +470,58 @@ struct ToolRow: View {
                 Text(detail)
                     .foregroundColor(.secondary)
             }
+        }
+    }
+}
+
+struct SettingsView: View {
+    @AppStorage("houselearning.focusMode") private var focusMode = false
+    @AppStorage("houselearning.safeAIFilter") private var safeAIFilter = true
+    @AppStorage("houselearning.teacherMode") private var teacherMode = true
+    @AppStorage("houselearning.autoUpdateCheck") private var autoUpdateCheck = true
+    @AppStorage("houselearning.darkMode") private var darkMode = false
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 18) {
+                HeaderSmall(title: "App settings", subtitle: "Customize the HouseLearning Mac experience")
+
+                RoundedPanel(title: "Learning preferences") {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Toggle("Focus mode", isOn: $focusMode)
+                        Toggle("SafeAI guidance enabled", isOn: $safeAIFilter)
+                        Toggle("Teacher mode", isOn: $teacherMode)
+                        Toggle("Check for app updates automatically", isOn: $autoUpdateCheck)
+                        Toggle("Dark mode", isOn: $darkMode)
+                    }
+                }
+
+                RoundedPanel(title: "System information") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        InfoRow(label: "Platform", value: "macOS")
+                        InfoRow(label: "Compatibility", value: "Mojave and newer")
+                        InfoRow(label: "Architecture", value: "Universal Intel + Apple Silicon")
+                        InfoRow(label: "Release channel", value: "Public beta")
+                    }
+                }
+            }
+            .padding(24)
+        }
+        .preferredColorScheme(darkMode ? .dark : .light)
+    }
+}
+
+struct InfoRow: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        HStack {
+            Text(label)
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(value)
+                .fontWeight(.semibold)
         }
     }
 }
