@@ -1,6 +1,44 @@
 import SwiftUI
 import AppKit
 
+struct GitHubRelease: Decodable {
+    let tag_name: String
+    let html_url: String
+    let assets: [GitHubAsset]
+}
+
+struct GitHubAsset: Decodable {
+    let browser_download_url: String
+}
+
+final class AutoUpdateManager: ObservableObject {
+    @Published var updateAvailable = false
+    @Published var latestVersion = ""
+    @Published var latestDownloadURL = "https://github.com/houselearning/macos-edition/releases/latest"
+    private let currentVersion = "0.1.0"
+
+    func checkForUpdate() {
+        guard let url = URL(string: "https://api.github.com/repos/houselearning/macos-edition/releases/latest") else { return }
+
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            guard let data else { return }
+
+            do {
+                let release = try JSONDecoder().decode(GitHubRelease.self, from: data)
+                let tag = release.tag_name.replacingOccurrences(of: "v", with: "")
+                let zipURL = release.assets.first?.browser_download_url ?? release.html_url
+                DispatchQueue.main.async {
+                    self.latestVersion = tag
+                    self.latestDownloadURL = zipURL
+                    self.updateAvailable = tag != self.currentVersion && !tag.isEmpty
+                }
+            } catch {
+                print("HouseLearning update check failed: \(error)")
+            }
+        }.resume()
+    }
+}
+
 struct HouseLearningFeature: Identifiable {
     let id = UUID()
     let emoji: String
@@ -18,9 +56,11 @@ let houseLearningFeatures: [HouseLearningFeature] = [
 ]
 
 struct ContentView: View {
+    @StateObject private var updateManager = AutoUpdateManager()
+
     var body: some View {
         TabView {
-            DashboardView()
+            DashboardView(updateManager: updateManager)
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
@@ -42,14 +82,21 @@ struct ContentView: View {
         }
         .frame(minWidth: 1100, minHeight: 760)
         .background(Color(nsColor: NSColor.controlBackgroundColor))
+        .onAppear { updateManager.checkForUpdate() }
     }
 }
 
 struct DashboardView: View {
+    @ObservedObject var updateManager: AutoUpdateManager
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 HeaderCard()
+
+                if updateManager.updateAvailable {
+                    UpdateBannerView(version: updateManager.latestVersion, downloadURL: updateManager.latestDownloadURL)
+                }
 
                 HStack(spacing: 18) {
                     StatCard(label: "Streak", value: "7 days")
@@ -182,12 +229,49 @@ struct TeacherToolsView: View {
     }
 }
 
+struct UpdateBannerView: View {
+    let version: String
+    let downloadURL: String
+
+    var body: some View {
+        HStack {
+            Image(systemName: "arrow.triangle.2.circlepath")
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Update available")
+                    .font(.headline)
+                Text("HouseLearning v\(version) is ready to download.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            Spacer()
+            Button("Download") {
+                if let url = URL(string: downloadURL) { NSWorkspace.shared.open(url) }
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.blue.opacity(0.1))
+        .cornerRadius(16)
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.blue.opacity(0.3), lineWidth: 1))
+    }
+}
+
 struct HeaderCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("HouseLearning")
-                .font(.largeTitle)
-                .bold()
+            HStack {
+                Text("HouseLearning")
+                    .font(.largeTitle)
+                    .bold()
+                Spacer()
+                Text("Official Mac app • Public beta")
+                    .font(.caption)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(Color.yellow.opacity(0.3))
+                    .cornerRadius(999)
+            }
             Text("A desktop learning app for Mac with math, science, coding, and SafeAI support.")
                 .foregroundColor(.secondary)
         }
@@ -340,6 +424,26 @@ struct SafetyRow: View {
                     .foregroundColor(.secondary)
             }
         }
+    }
+}
+
+struct TeacherStat: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(label)
+                .foregroundColor(.secondary)
+            Text(value)
+                .font(.title3)
+                .bold()
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(nsColor: NSColor.windowBackgroundColor))
+        .cornerRadius(16)
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray.opacity(0.2), lineWidth: 1))
     }
 }
 
