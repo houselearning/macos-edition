@@ -14,14 +14,28 @@ struct GitHubAsset: Decodable {
 final class AutoUpdateManager: ObservableObject {
     @Published var updateAvailable = false
     @Published var latestVersion = ""
-    @Published var latestDownloadURL = "https://github.com/houselearning/macos-edition/releases/latest"
+    @Published var latestDownloadURL = "https://github.com/houselearning/macos-edition/releases"
     private let currentVersion = "0.1.0"
 
     func checkForUpdate() {
         guard let url = URL(string: "https://api.github.com/repos/houselearning/macos-edition/releases/latest") else { return }
 
-        URLSession.shared.dataTask(with: url) { data, _, _ in
-            guard let data else { return }
+        URLSession.shared.dataTask(with: url) { data, response, _ in
+            guard let data else {
+                DispatchQueue.main.async {
+                    self.updateAvailable = false
+                    self.latestDownloadURL = "https://github.com/houselearning/macos-edition/releases"
+                }
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode >= 400 {
+                DispatchQueue.main.async {
+                    self.updateAvailable = false
+                    self.latestDownloadURL = "https://github.com/houselearning/macos-edition/releases"
+                }
+                return
+            }
 
             do {
                 let release = try JSONDecoder().decode(GitHubRelease.self, from: data)
@@ -29,11 +43,15 @@ final class AutoUpdateManager: ObservableObject {
                 let zipURL = release.assets.first?.browser_download_url ?? release.html_url
                 DispatchQueue.main.async {
                     self.latestVersion = tag
-                    self.latestDownloadURL = zipURL
+                    self.latestDownloadURL = zipURL.isEmpty ? "https://github.com/houselearning/macos-edition/releases" : zipURL
                     self.updateAvailable = tag != self.currentVersion && !tag.isEmpty
                 }
             } catch {
                 print("HouseLearning update check failed: \(error)")
+                DispatchQueue.main.async {
+                    self.updateAvailable = false
+                    self.latestDownloadURL = "https://github.com/houselearning/macos-edition/releases"
+                }
             }
         }.resume()
     }
